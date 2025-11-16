@@ -3,5 +3,4 @@ pandas
 sentence-transformers
 faiss-cpu
 tqdm
-
-
+rank-bm25

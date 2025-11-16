@@ -8,13 +8,28 @@ import pandas as pd
 
 def preprocess_text(text: str) -> str:
     """
-    Basic text normalization:
+    Basic text normalization for Russian text:
     - convert to lower case
+    - remove obvious HTML artifacts and control symbols
+    - normalize punctuation/quotes
     - collapse multiple whitespaces
     """
     if not isinstance(text, str):
         return ""
     text = text.strip().lower()
+
+    # Простая очистка HTML-разметки и спецсимволов
+    text = re.sub(r"<br\s*/?>", " ", text)
+    text = re.sub(r"</?(p|div|span|br|strong|em)[^>]*>", " ", text)
+
+    # Нормализация кавычек и дефисов
+    text = text.replace("«", '"').replace("»", '"')
+    text = text.replace("“", '"').replace("”", '"')
+    text = text.replace("—", "-").replace("–", "-")
+
+    # Убираем управляемые символы и неразрывные пробелы
+    text = text.replace("\xa0", " ")
+
     # Replace multiple whitespace with single space
     text = re.sub(r"\s+", " ", text)
     return text

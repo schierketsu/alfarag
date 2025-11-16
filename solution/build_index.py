@@ -15,10 +15,15 @@ from utils import (
 
 
 # Use already cached multilingual model to avoid long downloads.
+# При желании модель можно сменить, но важно использовать ту же самую в run_retrieval.py.
 MODEL_NAME = "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
 BATCH_SIZE = 64
-MAX_CHARS = 1000
-OVERLAP_CHARS = 200
+
+# Параметры чанкинга подобраны чуть агрессивнее, чем по умолчанию:
+# - меньший размер чанка позволяет точнее «прицелиться» в релевантный фрагмент,
+# - достаточный overlap сохраняет контекст.
+MAX_CHARS = 800
+OVERLAP_CHARS = 160
 
 
 def load_websites(data_dir: str) -> pd.DataFrame:
